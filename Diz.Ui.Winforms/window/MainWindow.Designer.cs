@@ -138,6 +138,7 @@ partial class MainWindow
         this.projectSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.importCaptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.importTraceLogBinary = new System.Windows.Forms.ToolStripMenuItem();
+        this.importMesenLiveTrace = new System.Windows.Forms.ToolStripMenuItem();
         this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1048,7 +1049,8 @@ partial class MainWindow
         // importCaptureToolStripMenuItem
         // 
         this.importCaptureToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.importTraceLogBinary});
+            this.importTraceLogBinary,
+            this.importMesenLiveTrace});
         this.importCaptureToolStripMenuItem.Name = "importCaptureToolStripMenuItem";
         this.importCaptureToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
         this.importCaptureToolStripMenuItem.Text = "Live Capture";
@@ -1061,6 +1063,15 @@ partial class MainWindow
         this.importTraceLogBinary.Size = new System.Drawing.Size(253, 22);
         this.importTraceLogBinary.Text = "BSNESPlus Trace Logging";
         this.importTraceLogBinary.Click += new System.EventHandler(this.importTraceLogBinary_Click);
+        // 
+        // importMesenLiveTrace
+        // 
+        this.importMesenLiveTrace.Enabled = false;
+        this.importMesenLiveTrace.Name = "importMesenLiveTrace";
+        this.importMesenLiveTrace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F6)));
+        this.importMesenLiveTrace.Size = new System.Drawing.Size(253, 22);
+        this.importMesenLiveTrace.Text = "Mesen2 Live Streaming";
+        this.importMesenLiveTrace.Click += new System.EventHandler(this.importMesenLiveTrace_Click);
         // 
         // helpToolStripMenuItem
         // 
@@ -1262,6 +1273,7 @@ partial class MainWindow
     private System.Windows.Forms.ToolStripMenuItem importTraceLogText;
     private System.Windows.Forms.ToolStripMenuItem importCaptureToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem importTraceLogBinary;
+    private System.Windows.Forms.ToolStripMenuItem importMesenLiveTrace;
     private System.Windows.Forms.ToolStripMenuItem closeProjectToolStripMenuItem;
     private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAlias;
     private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPC;
