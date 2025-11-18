@@ -13,17 +13,20 @@ namespace Diz.Ui.Winforms.window;
 public partial class MainWindow : Form, IMainGridWindowView
 {
     private readonly IViewFactory viewFactory;
+    private readonly IMesen2IntegrationController mesen2IntegrationController;
 
     public MainWindow(
         IProjectController projectController,
         IDizAppSettings appSettings, 
         IDizDocument document,
         IViewFactory viewFactory,
-        IAppVersionInfo appVersionInfo)
+        IAppVersionInfo appVersionInfo,
+        IMesen2IntegrationController mesen2IntegrationController)
     {
         Document = document;
         this.appSettings = appSettings;
         this.viewFactory = viewFactory;
+        this.mesen2IntegrationController = mesen2IntegrationController;
         ProjectController = projectController;
         ProjectController.ProjectView = this;
         this.appVersionInfo = appVersionInfo;
@@ -36,7 +39,13 @@ public partial class MainWindow : Form, IMainGridWindowView
             
         Document.PropertyChanged += Document_PropertyChanged;
         ProjectController.ProjectChanged += ProjectController_ProjectChanged;
-        Closed += (sender, args) => OnFormClosed?.Invoke(sender, args);
+        // Set up form closed event to handle cleanup and trigger interface event
+        FormClosed += (sender, args) => {
+            // Clean up Mesen2 integration
+            mesen2IntegrationController?.Shutdown();
+            // Trigger the interface event
+            OnFormClosed?.Invoke(this, EventArgs.Empty);
+        };
 
         NavigationForm = new NavigationForm
         {
@@ -45,6 +54,10 @@ public partial class MainWindow : Form, IMainGridWindowView
         };
 
         InitializeComponent();
+        
+        // Initialize Mesen2 integration
+        mesen2IntegrationController.Initialize();
+        UpdateMesen2MenuState();
     }
     
     
@@ -263,7 +276,91 @@ public partial class MainWindow : Form, IMainGridWindowView
             UpdatePercent(forceRecalculate: true);
     }
 
-    public event EventHandler? OnFormClosed;
+    public event EventHandler OnFormClosed;
 
     public void BringFormToTop() => this.BringWinFormToTop();
+
+    #region Mesen2 Integration Event Handlers
+
+    private void connectToMesen2ToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        Task.Run(async () =>
+        {
+            var success = await mesen2IntegrationController.ConnectToMesen2Async();
+            
+            Invoke(() =>
+            {
+                UpdateMesen2MenuState();
+                
+                if (success)
+                {
+                    MessageBox.Show(this, "Successfully connected to Mesen2!", "Mesen2 Integration", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(this, "Failed to connect to Mesen2. Please ensure:\n\n" +
+                        "1. Mesen2 is running with a ROM loaded\n" +
+                        "2. DiztinGUIsh server is started (Tools → DiztinGUIsh Server)\n" +
+                        "3. Server is running on the configured port\n" +
+                        "4. No firewall is blocking the connection", "Connection Failed", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            });
+        });
+    }
+
+    private void disconnectFromMesen2ToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        Task.Run(async () =>
+        {
+            await mesen2IntegrationController.DisconnectFromMesen2Async();
+            
+            Invoke(() =>
+            {
+                UpdateMesen2MenuState();
+                MessageBox.Show(this, "Disconnected from Mesen2.", "Mesen2 Integration", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            });
+        });
+    }
+
+    private void mesen2StatusToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        mesen2IntegrationController.ShowStatusWindow();
+    }
+
+    private void mesen2DashboardToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        mesen2IntegrationController.ShowDashboard();
+    }
+
+    private void mesen2TraceViewerToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        mesen2IntegrationController.ShowTraceViewer();
+    }
+
+    private void mesen2ConfigurationToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        mesen2IntegrationController.ShowConnectionDialog();
+    }
+
+    private void advancedConfigurationToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        mesen2IntegrationController.ShowAdvancedConfigurationDialog();
+    }
+
+    private void UpdateMesen2MenuState()
+    {
+        var isConnected = mesen2IntegrationController.Client?.IsConnected == true;
+        
+        connectToMesen2ToolStripMenuItem.Enabled = !isConnected;
+        disconnectFromMesen2ToolStripMenuItem.Enabled = isConnected;
+        
+        // Update status text
+        var statusText = isConnected ? "Connected to Mesen2" : "Disconnected from Mesen2";
+        mesen2StatusToolStripMenuItem.Text = $"Show &Status Window ({statusText})";
+    }
+
+    #endregion
 }

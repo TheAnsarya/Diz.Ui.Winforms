@@ -139,6 +139,17 @@ partial class MainWindow
         this.importCaptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.importTraceLogBinary = new System.Windows.Forms.ToolStripMenuItem();
         this.importMesenLiveTrace = new System.Windows.Forms.ToolStripMenuItem();
+        this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        this.mesen2IntegrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        this.connectToMesen2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        this.disconnectFromMesen2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        this.mesen2StatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+        this.mesen2DashboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        this.mesen2TraceViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+        this.mesen2ConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        this.advancedConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -379,6 +390,7 @@ partial class MainWindow
             this.navigateToolStripMenuItem,
             this.selectMarkerToolStripMenuItem,
             this.viewToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
         this.menuStrip1.Location = new System.Drawing.Point(0, 0);
         this.menuStrip1.Name = "menuStrip1";
@@ -1073,6 +1085,93 @@ partial class MainWindow
         this.importMesenLiveTrace.Text = "Mesen2 Live Streaming";
         this.importMesenLiveTrace.Click += new System.EventHandler(this.importMesenLiveTrace_Click);
         // 
+        // toolsToolStripMenuItem
+        // 
+        this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mesen2IntegrationToolStripMenuItem});
+        this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+        this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+        this.toolsToolStripMenuItem.Text = "&Tools";
+        // 
+        // mesen2IntegrationToolStripMenuItem
+        // 
+        this.mesen2IntegrationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connectToMesen2ToolStripMenuItem,
+            this.disconnectFromMesen2ToolStripMenuItem,
+            this.toolStripSeparator12,
+            this.mesen2DashboardToolStripMenuItem,
+            this.mesen2StatusToolStripMenuItem,
+            this.mesen2TraceViewerToolStripMenuItem,
+            this.toolStripSeparator13,
+            this.mesen2ConfigurationToolStripMenuItem,
+            this.advancedConfigurationToolStripMenuItem});
+        this.mesen2IntegrationToolStripMenuItem.Name = "mesen2IntegrationToolStripMenuItem";
+        this.mesen2IntegrationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+        this.mesen2IntegrationToolStripMenuItem.Text = "&Mesen2 Integration";
+        // 
+        // connectToMesen2ToolStripMenuItem
+        // 
+        this.connectToMesen2ToolStripMenuItem.Name = "connectToMesen2ToolStripMenuItem";
+        this.connectToMesen2ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F6)));
+        this.connectToMesen2ToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+        this.connectToMesen2ToolStripMenuItem.Text = "&Connect to Mesen2";
+        this.connectToMesen2ToolStripMenuItem.Click += new System.EventHandler(this.connectToMesen2ToolStripMenuItem_Click);
+        // 
+        // disconnectFromMesen2ToolStripMenuItem
+        // 
+        this.disconnectFromMesen2ToolStripMenuItem.Name = "disconnectFromMesen2ToolStripMenuItem";
+        this.disconnectFromMesen2ToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+        this.disconnectFromMesen2ToolStripMenuItem.Text = "&Disconnect from Mesen2";
+        this.disconnectFromMesen2ToolStripMenuItem.Enabled = false;
+        this.disconnectFromMesen2ToolStripMenuItem.Click += new System.EventHandler(this.disconnectFromMesen2ToolStripMenuItem_Click);
+        // 
+        // toolStripSeparator12
+        // 
+        this.toolStripSeparator12.Name = "toolStripSeparator12";
+        this.toolStripSeparator12.Size = new System.Drawing.Size(197, 6);
+        // 
+        // mesen2DashboardToolStripMenuItem
+        // 
+        this.mesen2DashboardToolStripMenuItem.Name = "mesen2DashboardToolStripMenuItem";
+        this.mesen2DashboardToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+        this.mesen2DashboardToolStripMenuItem.Text = "Show &Dashboard";
+        this.mesen2DashboardToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
+        this.mesen2DashboardToolStripMenuItem.Click += new System.EventHandler(this.mesen2DashboardToolStripMenuItem_Click);
+        // 
+        // mesen2StatusToolStripMenuItem
+        // 
+        this.mesen2StatusToolStripMenuItem.Name = "mesen2StatusToolStripMenuItem";
+        this.mesen2StatusToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+        this.mesen2StatusToolStripMenuItem.Text = "Show &Status Window";
+        this.mesen2StatusToolStripMenuItem.Click += new System.EventHandler(this.mesen2StatusToolStripMenuItem_Click);
+        // 
+        // mesen2TraceViewerToolStripMenuItem
+        // 
+        this.mesen2TraceViewerToolStripMenuItem.Name = "mesen2TraceViewerToolStripMenuItem";
+        this.mesen2TraceViewerToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+        this.mesen2TraceViewerToolStripMenuItem.Text = "Show &Trace Viewer";
+        this.mesen2TraceViewerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F7)));
+        this.mesen2TraceViewerToolStripMenuItem.Click += new System.EventHandler(this.mesen2TraceViewerToolStripMenuItem_Click);
+        // 
+        // toolStripSeparator13
+        // 
+        this.toolStripSeparator13.Name = "toolStripSeparator13";
+        this.toolStripSeparator13.Size = new System.Drawing.Size(197, 6);
+        // 
+        // mesen2ConfigurationToolStripMenuItem
+        // 
+        this.mesen2ConfigurationToolStripMenuItem.Name = "mesen2ConfigurationToolStripMenuItem";
+        this.mesen2ConfigurationToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+        this.mesen2ConfigurationToolStripMenuItem.Text = "Co&nfiguration...";
+        this.mesen2ConfigurationToolStripMenuItem.Click += new System.EventHandler(this.mesen2ConfigurationToolStripMenuItem_Click);
+        // 
+        // advancedConfigurationToolStripMenuItem
+        // 
+        this.advancedConfigurationToolStripMenuItem.Name = "advancedConfigurationToolStripMenuItem";
+        this.advancedConfigurationToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+        this.advancedConfigurationToolStripMenuItem.Text = "&Advanced Configuration...";
+        this.advancedConfigurationToolStripMenuItem.Click += new System.EventHandler(this.advancedConfigurationToolStripMenuItem_Click);
+        // 
         // helpToolStripMenuItem
         // 
         this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1321,4 +1420,15 @@ partial class MainWindow
     private System.Windows.Forms.ToolStripMenuItem toolStrip_exportDisassemblyEditSettingsFirst;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
     private System.Windows.Forms.ToolStripMenuItem toolStrip_openExportDirectory;
+    private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem mesen2IntegrationToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem connectToMesen2ToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem disconnectFromMesen2ToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem mesen2StatusToolStripMenuItem;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+    private System.Windows.Forms.ToolStripMenuItem mesen2ConfigurationToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem advancedConfigurationToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem mesen2TraceViewerToolStripMenuItem;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+    private System.Windows.Forms.ToolStripMenuItem mesen2DashboardToolStripMenuItem;
 }
