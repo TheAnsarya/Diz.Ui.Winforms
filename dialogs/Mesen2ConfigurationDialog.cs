@@ -454,10 +454,26 @@ namespace Diz.Ui.Winforms.dialogs
         {
             this.txtHost = new TextBox();
             this.numPort = new NumericUpDown();
+            this.numPort.Minimum = 1;
+            this.numPort.Maximum = 65535;
+            this.numPort.Value = 9998;
+            
             this.numTimeout = new NumericUpDown();
+            this.numTimeout.Minimum = 1000;
+            this.numTimeout.Maximum = 30000;
+            this.numTimeout.Value = 5000;
+            
             this.chkAutoReconnect = new CheckBox();
+            
             this.numMaxRetries = new NumericUpDown();
+            this.numMaxRetries.Minimum = 1;
+            this.numMaxRetries.Maximum = 100;
+            this.numMaxRetries.Value = 5;
+            
             this.numRetryDelay = new NumericUpDown();
+            this.numRetryDelay.Minimum = 1000;
+            this.numRetryDelay.Maximum = 60000;
+            this.numRetryDelay.Value = 2000;
             
             this.tabConnection.Text = "Connection";
             this.tabConnection.UseVisualStyleBackColor = true;
@@ -469,14 +485,31 @@ namespace Diz.Ui.Winforms.dialogs
         private void InitializeStreamingControls()
         {
             this.chkEnableCompression = new CheckBox();
+            
             this.numBufferSize = new NumericUpDown();
+            this.numBufferSize.Minimum = 1024;
+            this.numBufferSize.Maximum = 1048576; // 1MB
+            this.numBufferSize.Value = 8192;
+            
             this.numBatchSize = new NumericUpDown();
+            this.numBatchSize.Minimum = 1;
+            this.numBatchSize.Maximum = 10000;
+            this.numBatchSize.Value = 100;
+            
             this.chkCpuData = new CheckBox();
             this.chkMemoryData = new CheckBox();
             this.chkDebugData = new CheckBox();
             this.chkEventData = new CheckBox();
+            
             this.numUpdateInterval = new NumericUpDown();
+            this.numUpdateInterval.Minimum = 100;
+            this.numUpdateInterval.Maximum = 10000;
+            this.numUpdateInterval.Value = 1000;
+            
             this.numMaxQueueSize = new NumericUpDown();
+            this.numMaxQueueSize.Minimum = 100;
+            this.numMaxQueueSize.Maximum = 100000;
+            this.numMaxQueueSize.Value = 10000;
             
             this.tabStreaming.Text = "Streaming";
             this.tabStreaming.UseVisualStyleBackColor = true;
@@ -509,7 +542,12 @@ namespace Diz.Ui.Winforms.dialogs
         private void InitializeAdvancedControls()
         {
             this.chkStrictProtocol = new CheckBox();
+            
             this.numKeepAlive = new NumericUpDown();
+            this.numKeepAlive.Minimum = 1000;
+            this.numKeepAlive.Maximum = 60000;
+            this.numKeepAlive.Value = 30000;
+            
             this.chkBinaryProtocol = new CheckBox();
             
             this.tabAdvanced.Text = "Advanced";
