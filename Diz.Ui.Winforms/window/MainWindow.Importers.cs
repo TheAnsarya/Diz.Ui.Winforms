@@ -201,6 +201,47 @@ public partial class MainWindow
         }
     }
 
+    private void ImportMesenBinaryTraceLog()
+    {
+        var snesData = Project.Data.GetSnesApi();
+        if (snesData == null)
+        {
+            ShowError("No project loaded!", "Error");
+            return;
+        }
+
+        // File selection dialog
+        using var openFileDialog = new OpenFileDialog
+        {
+            Filter = "Mesen2 Binary Trace Files (*.bin)|*.bin|All Files (*.*)|*.*",
+            Multiselect = true,
+            Title = "Select Mesen2 Binary Trace Files"
+        };
+
+        if (openFileDialog.ShowDialog() != DialogResult.OK)
+            return;
+
+        try
+        {
+            // Use default capture settings
+            var captureSettings = new BsnesTraceLogCaptureController.TraceLogCaptureSettings
+            {
+                CaptureLabelsOnly = false,
+                AddTracelogLabel = true,
+                CommentTextToAdd = "Mesen2 Binary Import"
+            };
+
+            var bytesModified = ProjectController.ImportMesenTraceLogsBinary(openFileDialog.FileNames, captureSettings);
+            
+            RefreshUi();
+            ShowInfo($"Import completed successfully!\n\nFiles imported: {openFileDialog.FileNames.Length}\nROM bytes modified: {bytesModified:N0}", "Mesen2 Binary Import");
+        }
+        catch (Exception ex)
+        {
+            ShowError($"Failed to import Mesen2 binary trace files.\n\nError: {ex.Message}", "Import Error");
+        }
+    }
+
     private void OnImportedProjectSuccess()
     {
         UpdateSaveOptionStates(saveEnabled: false, saveAsEnabled: true, closeEnabled: true);

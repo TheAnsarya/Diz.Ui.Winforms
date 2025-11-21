@@ -88,6 +88,7 @@ public partial class MainWindow
         
     private void importTraceLogBinary_Click(object sender, EventArgs e) => ImportBsnesBinaryTraceLog();
     private void importMesenLiveTrace_Click(object sender, EventArgs e) => ImportMesenLiveTrace();
+    private void importMesenBinaryTrace_Click(object sender, EventArgs e) => ImportMesenBinaryTraceLog();
     private void addLabelToolStripMenuItem_Click(object sender, EventArgs e) => BeginAddingLabel();
     private void visualMapToolStripMenuItem_Click(object sender, EventArgs e) => ShowVisualizerForm();
     private void stepOverToolStripMenuItem_Click(object sender, EventArgs e) => Step(SelectedOffset);

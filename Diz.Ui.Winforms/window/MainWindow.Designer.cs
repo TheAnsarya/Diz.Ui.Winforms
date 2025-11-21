@@ -139,6 +139,7 @@ partial class MainWindow
         this.importCaptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.importTraceLogBinary = new System.Windows.Forms.ToolStripMenuItem();
         this.importMesenLiveTrace = new System.Windows.Forms.ToolStripMenuItem();
+        this.importMesenBinaryTrace = new System.Windows.Forms.ToolStripMenuItem();
         this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.mesen2IntegrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.connectToMesen2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1062,7 +1063,8 @@ partial class MainWindow
         // 
         this.importCaptureToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importTraceLogBinary,
-            this.importMesenLiveTrace});
+            this.importMesenLiveTrace,
+            this.importMesenBinaryTrace});
         this.importCaptureToolStripMenuItem.Name = "importCaptureToolStripMenuItem";
         this.importCaptureToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
         this.importCaptureToolStripMenuItem.Text = "Live Capture";
@@ -1084,6 +1086,15 @@ partial class MainWindow
         this.importMesenLiveTrace.Size = new System.Drawing.Size(253, 22);
         this.importMesenLiveTrace.Text = "Mesen2 Live Streaming";
         this.importMesenLiveTrace.Click += new System.EventHandler(this.importMesenLiveTrace_Click);
+        // 
+        // importMesenBinaryTrace
+        // 
+        this.importMesenBinaryTrace.Enabled = false;
+        this.importMesenBinaryTrace.Name = "importMesenBinaryTrace";
+        this.importMesenBinaryTrace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F7)));
+        this.importMesenBinaryTrace.Size = new System.Drawing.Size(253, 22);
+        this.importMesenBinaryTrace.Text = "Mesen2 Binary Import";
+        this.importMesenBinaryTrace.Click += new System.EventHandler(this.importMesenBinaryTrace_Click);
         // 
         // toolsToolStripMenuItem
         // 
@@ -1431,4 +1442,5 @@ partial class MainWindow
     private System.Windows.Forms.ToolStripMenuItem mesen2TraceViewerToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
     private System.Windows.Forms.ToolStripMenuItem mesen2DashboardToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem importMesenBinaryTrace;
 }

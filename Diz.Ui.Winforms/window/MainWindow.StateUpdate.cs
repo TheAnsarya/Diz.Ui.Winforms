@@ -142,6 +142,7 @@ public partial class MainWindow
         importCDLToolStripMenuItem.Enabled = importerMenuItemsEnabled;
         importTraceLogBinary.Enabled = importerMenuItemsEnabled;
         importMesenLiveTrace.Enabled = importerMenuItemsEnabled;
+        importMesenBinaryTrace.Enabled = importerMenuItemsEnabled;
         importTraceLogText.Enabled = importerMenuItemsEnabled;
     }
 
