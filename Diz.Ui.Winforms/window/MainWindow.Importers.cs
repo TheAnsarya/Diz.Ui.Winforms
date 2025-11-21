@@ -29,11 +29,11 @@ public partial class MainWindow
 
     private void ImportBsnesTraceLogText()
     {
-        if (!PromptForImportBSNESTraceLogFile()) 
+        if (!PromptForImportBSNESTraceLogFile())
             return;
-            
+
         var (numModifiedFlags, numFiles) = ImportBsnesTraceLogs();
-            
+
         RefreshUi();
         ReportNumberFlagsModified(numModifiedFlags, numFiles);
     }
@@ -44,7 +44,7 @@ public partial class MainWindow
             return;
 
         var numModifiedFlags = ProjectController.ImportBsnesUsageMap(openUsageMapFile.FileName);
-            
+
         RefreshUi();
         ShowInfo($"Modified total {numModifiedFlags} flags!", "Done");
     }
@@ -60,10 +60,10 @@ public partial class MainWindow
         var snesData = Project.Data.GetSnesApi();
         if (snesData == null)
             return;
-            
+
         var captureController = new BsnesTraceLogCaptureController(snesData);
         new BsnesTraceLogBinaryMonitorForm(captureController).ShowDialog();
-            
+
         RefreshUi();
     }
 
@@ -84,15 +84,15 @@ public partial class MainWindow
 
         var hostLabel = new Label { Text = "Host:", Location = new Point(10, 20), Size = new Size(40, 20) };
         var hostTextBox = new TextBox { Text = "localhost", Location = new Point(60, 18), Size = new Size(100, 20) };
-        
+
         var portLabel = new Label { Text = "Port:", Location = new Point(170, 20), Size = new Size(30, 20) };
-        var portNumeric = new NumericUpDown 
-        { 
-            Value = 9998, 
-            Minimum = 1024, 
-            Maximum = 65535, 
-            Location = new Point(210, 18), 
-            Size = new Size(60, 20) 
+        var portNumeric = new NumericUpDown
+        {
+            Minimum = 1024,
+            Maximum = 65535,
+            Value = 9998,
+            Location = new Point(210, 18),
+            Size = new Size(60, 20)
         };
 
         var connectButton = new Button { Text = "Connect", Location = new Point(60, 60), Size = new Size(75, 25) };
@@ -115,34 +115,34 @@ public partial class MainWindow
         streamForm.Size = new Size(500, 300);
         streamForm.StartPosition = FormStartPosition.CenterParent;
 
-        var statusLabel = new Label 
-        { 
-            Text = "Connecting...", 
-            Location = new Point(10, 10), 
-            Size = new Size(460, 20) 
-        };
-        
-        var statsLabel = new Label 
-        { 
-            Text = "", 
-            Location = new Point(10, 40), 
-            Size = new Size(460, 100) 
+        var statusLabel = new Label
+        {
+            Text = "Connecting...",
+            Location = new Point(10, 10),
+            Size = new Size(460, 20)
         };
 
-        var stopButton = new Button 
-        { 
-            Text = "Stop Streaming", 
-            Location = new Point(200, 200), 
-            Size = new Size(100, 30) 
+        var statsLabel = new Label
+        {
+            Text = "",
+            Location = new Point(10, 40),
+            Size = new Size(460, 100)
+        };
+
+        var stopButton = new Button
+        {
+            Text = "Stop Streaming",
+            Location = new Point(200, 200),
+            Size = new Size(100, 30)
         };
 
         streamForm.Controls.AddRange(new Control[] { statusLabel, statsLabel, stopButton });
 
         var cancellationTokenSource = new CancellationTokenSource();
-        stopButton.Click += (s, e) => 
-        { 
-            cancellationTokenSource.Cancel(); 
-            streamForm.Close(); 
+        stopButton.Click += (s, e) =>
+        {
+            cancellationTokenSource.Cancel();
+            streamForm.Close();
         };
 
         streamForm.FormClosing += (s, e) => cancellationTokenSource.Cancel();
@@ -161,7 +161,43 @@ public partial class MainWindow
         catch (Exception ex)
         {
             streamForm.Close();
-            ShowError($"Failed to connect to Mesen2 at {host}:{port}.\n\nError: {ex.Message}\n\nMake sure:\n• Mesen2 is running\n• A ROM is loaded\n• DiztinGUIsh server is enabled: emu.startDiztinguishServer({port})", "Connection Error");
+            
+            // Provide detailed troubleshooting based on error type
+            string troubleshootingSteps;
+            if (ex.Message.Contains("refused") || ex.Message.Contains("target machine"))
+            {
+                troubleshootingSteps = $@"
+🔧 Connection Refused - Server Not Running:
+
+1. ✅ Launch Mesen2 emulator
+2. ✅ Load a ROM in Mesen2
+3. ✅ Open Lua Console in Mesen2
+4. ✅ Run: emu.startDiztinguishServer({port})
+5. ✅ Start emulation (make sure it's not paused)
+
+💡 Test your setup with: ~docs\test_connection_lifecycle.ps1";
+            }
+            else if (ex.Message.Contains("timeout"))
+            {
+                troubleshootingSteps = $@"
+🔧 Connection Timeout:
+
+1. ✅ Check if Mesen2 DiztinGUIsh server is running
+2. ✅ Verify port {port} is not blocked by firewall
+3. ✅ Try restarting: emu.stopDiztinguishServer() then emu.startDiztinguishServer({port})";
+            }
+            else
+            {
+                troubleshootingSteps = $@"
+🔧 Connection Error:
+
+1. ✅ Mesen2 is running
+2. ✅ A ROM is loaded in Mesen2
+3. ✅ DiztinGUIsh server enabled: emu.startDiztinguishServer({port})
+4. ✅ Emulation is active (not paused)";
+            }
+            
+            ShowError($"Failed to connect to Mesen2 at {host}:{port}.\n\nError: {ex.Message}\n{troubleshootingSteps}", "Mesen2 Connection Error");
         }
     }
 
