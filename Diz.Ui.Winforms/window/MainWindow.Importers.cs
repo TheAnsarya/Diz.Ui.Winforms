@@ -138,25 +138,63 @@ public partial class MainWindow
 
         streamForm.Controls.AddRange(new Control[] { statusLabel, statsLabel, stopButton });
 
-        var cancellationTokenSource = new CancellationTokenSource();
-        stopButton.Click += (s, e) =>
+        // Track if we manually stopped vs error
+        var manualStop = false;
+        
+        stopButton.Click += async (s, e) =>
         {
-            cancellationTokenSource.Cancel();
-            streamForm.Close();
+            manualStop = true;
+            stopButton.Enabled = false;
+            statusLabel.Text = "⏸️ Stopping streaming...";
+            
+            try
+            {
+                var bytesModified = await ProjectController.StopMesenTraceLive();
+                streamForm.Close();
+                RefreshUi();
+                ShowInfo($"Streaming stopped. Modified {bytesModified:N0} ROM bytes.", "Mesen2 Live Streaming");
+            }
+            catch (Exception ex)
+            {
+                streamForm.Close();
+                ShowError($"Error stopping stream: {ex.Message}", "Mesen2 Streaming Error");
+            }
         };
 
-        streamForm.FormClosing += (s, e) => cancellationTokenSource.Cancel();
+        streamForm.FormClosing += async (s, e) =>
+        {
+            if (!manualStop && ProjectController.IsMesenTraceLiveActive)
+            {
+                // User closed form - stop streaming gracefully
+                e.Cancel = true; // Prevent immediate close
+                manualStop = true;
+                stopButton.Enabled = false;
+                statusLabel.Text = "⏸️ Stopping streaming...";
+                
+                try
+                {
+                    await ProjectController.StopMesenTraceLive();
+                    streamForm.Close(); // Now close for real
+                }
+                catch
+                {
+                    streamForm.Close();
+                }
+            }
+        };
 
         try
         {
             streamForm.Show();
 
-            // Start streaming in background
-            var bytesModified = await ProjectController.ImportMesenTraceLive(host, port, cancellationTokenSource.Token);
-
-            streamForm.Close();
-            RefreshUi();
-            ShowInfo($"Streaming completed. Modified {bytesModified:N0} ROM bytes.", "Mesen2 Live Streaming");
+            // Start streaming - this returns immediately after connecting
+            await ProjectController.ImportMesenTraceLive(host, port);
+            
+            // Update UI to show streaming is active
+            statusLabel.Text = "✅ Streaming active - receiving trace data...";
+            
+            // Note: Form stays open, streaming continues in background
+            // User must click Stop or close form to end streaming
         }
         catch (Exception ex)
         {
